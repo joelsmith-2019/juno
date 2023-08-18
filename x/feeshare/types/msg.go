@@ -10,12 +10,16 @@ var (
 	_ sdk.Msg = &MsgRegisterFeeShare{}
 	_ sdk.Msg = &MsgCancelFeeShare{}
 	_ sdk.Msg = &MsgUpdateFeeShare{}
+	_ sdk.Msg = &MsgStartCounter{}
+	_ sdk.Msg = &MsgStopCounter{}
 )
 
 const (
 	TypeMsgRegisterFeeShare = "register_feeshare"
 	TypeMsgCancelFeeShare   = "cancel_feeshare"
 	TypeMsgUpdateFeeShare   = "update_feeshare"
+	TypeMsgStartCounter     = "start_counter"
+	TypeMsgStopCounter      = "stop_counter"
 )
 
 // NewMsgRegisterFeeShare creates new instance of MsgRegisterFeeShare
@@ -180,4 +184,62 @@ func (m *MsgUpdateParams) ValidateBasic() error {
 	}
 
 	return m.Params.Validate()
+}
+
+// NewMsgStartCounter creates new instance of MsgStartCounter
+func NewMsgStartCounter(
+	deployer sdk.AccAddress,
+) *MsgStartCounter {
+	return &MsgStartCounter{
+		DeployerAddress: deployer.String(),
+	}
+}
+
+// Route returns the name of the module
+func (msg MsgStartCounter) Route() string { return RouterKey }
+
+// Type returns the the action
+func (msg MsgStartCounter) Type() string { return TypeMsgStartCounter }
+
+// ValidateBasic runs stateless checks on the message
+func (msg MsgStartCounter) ValidateBasic() error { return nil }
+
+// GetSignBytes encodes the message for signing
+func (msg *MsgStartCounter) GetSignBytes() []byte {
+	return sdk.MustSortJSON(AminoCdc.MustMarshalJSON(msg))
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgStartCounter) GetSigners() []sdk.AccAddress {
+	from, _ := sdk.AccAddressFromBech32(msg.DeployerAddress)
+	return []sdk.AccAddress{from}
+}
+
+// NewMsgStopCounter creates new instance of MsgStopCounter
+func NewMsgStopCounter(
+	deployer sdk.AccAddress,
+) *MsgStartCounter {
+	return &MsgStartCounter{
+		DeployerAddress: deployer.String(),
+	}
+}
+
+// Route returns the name of the module
+func (msg MsgStopCounter) Route() string { return RouterKey }
+
+// Type returns the the action
+func (msg MsgStopCounter) Type() string { return TypeMsgStopCounter }
+
+// ValidateBasic runs stateless checks on the message
+func (msg MsgStopCounter) ValidateBasic() error { return nil }
+
+// GetSignBytes encodes the message for signing
+func (msg *MsgStopCounter) GetSignBytes() []byte {
+	return sdk.MustSortJSON(AminoCdc.MustMarshalJSON(msg))
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgStopCounter) GetSigners() []sdk.AccAddress {
+	from, _ := sdk.AccAddressFromBech32(msg.DeployerAddress)
+	return []sdk.AccAddress{from}
 }

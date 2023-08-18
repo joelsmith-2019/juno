@@ -28,6 +28,8 @@ func NewTxCmd() *cobra.Command {
 		NewRegisterFeeShare(),
 		NewCancelFeeShare(),
 		NewUpdateFeeShare(),
+		NewStartCounter(),
+		NewStopCounter(),
 	)
 	return txCmd
 }
@@ -142,5 +144,57 @@ func NewUpdateFeeShare() *cobra.Command {
 	}
 
 	flags.AddTxFlagsToCmd(cmd)
+	return cmd
+}
+
+// Start the counter
+func NewStartCounter() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "start",
+		Short: "start the counter",
+		Long:  "start the counter now",
+		Args:  cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := &types.MsgStartCounter{
+				DeployerAddress: cliCtx.GetFromAddress().String(),
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(cliCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+// Stop the counter
+func NewStopCounter() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "stop",
+		Short: "stop the counter",
+		Long:  "stop the counter now",
+		Args:  cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := &types.MsgStopCounter{
+				DeployerAddress: cliCtx.GetFromAddress().String(),
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(cliCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
 	return cmd
 }

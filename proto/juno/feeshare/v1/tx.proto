@@ -25,6 +25,17 @@ service Msg {
   rpc CancelFeeShare(MsgCancelFeeShare) returns (MsgCancelFeeShareResponse) {
     option (google.api.http).post = "/juno/feeshare/v1/tx/cancel_FeeShare";
   };
+  
+  // StartCounter stars it.
+  rpc StartCounting(MsgStartCounter) returns (MsgStartCounterResponse) {
+    option (google.api.http).post = "/juno/feeshare/v1/tx/start_counting";
+  };
+
+  // StopCounter stops the counter.
+  rpc StopCounting(MsgStopCounter) returns (MsgStopCounterResponse) {
+    option (google.api.http).post = "/juno/feeshare/v1/tx/stop_counting";
+  };
+
   // Update the params of the module through gov v1 type.
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
 }
@@ -95,3 +106,25 @@ message MsgUpdateParams {
 //
 // Since: cosmos-sdk 0.47
 message MsgUpdateParamsResponse {}
+
+// Start counter messages
+message MsgStartCounter {
+  option (gogoproto.equal) = false;
+
+  // deployer_address is the bech32 address of message sender. It must be the
+  // same the contract's admin address
+  string deployer_address = 1;
+}
+
+// Start counter response messages
+message MsgStartCounterResponse {}
+
+// Stop counter messages
+message MsgStopCounter {
+  option (gogoproto.equal) = false;
+
+  // deployer_address is the bech32 address of message sender. It must be the
+  // same the contract's admin address
+  string deployer_address = 1;
+}
+message MsgStopCounterResponse {}

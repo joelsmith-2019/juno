@@ -307,3 +307,21 @@ func (k Keeper) UpdateParams(goCtx context.Context, req *types.MsgUpdateParams) 
 
 	return &types.MsgUpdateParamsResponse{}, nil
 }
+
+// StartCounter implements types.MsgServer.
+func (k Keeper) StartCounting(goCtx context.Context, req *types.MsgStartCounter) (*types.MsgStartCounterResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	k.StartCounter(ctx, req)
+
+	return &types.MsgStartCounterResponse{}, nil
+}
+
+// StopCounter implements types.MsgServer.
+func (k Keeper) StopCounting(goCtx context.Context, req *types.MsgStopCounter) (*types.MsgStopCounterResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	k.StopCounter(ctx, req)
+
+	return &types.MsgStopCounterResponse{}, nil
+}

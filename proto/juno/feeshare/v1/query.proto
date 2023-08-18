@@ -42,6 +42,13 @@ service Query {
     option (google.api.http).get =
         "/juno/feeshare/v1/fee_shares/{withdrawer_address}";
   }
+
+  // GetCount queries the counter's current value
+  rpc GetCount(QueryGetCount)
+      returns (QueryGetCountResponse) {
+    option (google.api.http).get =
+        "/juno/feeshare/v1/count";
+  }
 }
 
 // QueryFeeSharesRequest is the request type for the Query/FeeShares RPC method.
@@ -116,4 +123,17 @@ message QueryWithdrawerFeeSharesResponse {
   repeated string contract_addresses = 1;
   // pagination defines the pagination in the response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// Query Count message to retrieve the count
+message QueryGetCount {}
+
+// Query Count Response
+message QueryGetCountResponse {
+
+  // The counter's current value
+  uint64 count = 1 [    
+    (gogoproto.jsontag) = "count,omitempty",
+    (gogoproto.moretags) = "yaml:\"count\""
+  ];
 }

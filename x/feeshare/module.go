@@ -155,7 +155,19 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 }
 
 // BeginBlock executes all ABCI BeginBlock logic respective to the fees module.
-func (am AppModule) BeginBlock(_ sdk.Context, _ abci.RequestBeginBlock) {
+func (am AppModule) BeginBlock(ctx sdk.Context, _ abci.RequestBeginBlock) {
+
+	if am.keeper.IsRunning(ctx).Running {
+
+		ctx.Logger().Error("Before", "count", am.keeper.GetCount(ctx).Count)
+
+		am.keeper.SetCount(ctx, am.keeper.GetCount(ctx).Count+1)
+
+		ctx.Logger().Error("After", "count", am.keeper.GetCount(ctx).Count)
+
+	} else {
+		ctx.Logger().Error("Counter is not running!")
+	}
 }
 
 // EndBlock executes all ABCI EndBlock logic respective to the fee-share module. It

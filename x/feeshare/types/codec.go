@@ -28,6 +28,8 @@ const (
 	registerFeeShareName = "juno/MsgRegisterFeeShare"
 	updateFeeShareName   = "juno/MsgUpdateFeeShare"
 	updateFeeShareParams = "juno/MsgUpdateParams"
+	startCounterName     = "juno/MsgStartCounter"
+	stopCounterName      = "juno/MsgStopCounter"
 )
 
 // NOTE: This is required for the GetSignBytes function
@@ -50,6 +52,8 @@ func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 		&MsgCancelFeeShare{},
 		&MsgUpdateFeeShare{},
 		&MsgUpdateParams{},
+		&MsgStartCounter{},
+		&MsgStopCounter{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
@@ -63,4 +67,6 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgRegisterFeeShare{}, registerFeeShareName, nil)
 	cdc.RegisterConcrete(&MsgUpdateFeeShare{}, updateFeeShareName, nil)
 	cdc.RegisterConcrete(&MsgUpdateParams{}, updateFeeShareParams, nil)
+	cdc.RegisterConcrete(&MsgStartCounter{}, startCounterName, nil)
+	cdc.RegisterConcrete(&MsgStopCounter{}, stopCounterName, nil)
 }

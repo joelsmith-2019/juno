@@ -29,3 +29,13 @@ message Params {
   // If this list is empty, all denoms are allowed.
   repeated string allowed_denoms = 3;
 }
+
+// Defines if the counter is running or not
+message RunningData {  
+  bool running = 1;
+}
+
+// Defines the data to be get/set for the module
+message CountData {
+  uint64 count = 1;
+}

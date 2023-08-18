@@ -177,3 +177,15 @@ func (q Querier) WithdrawerFeeShares( // nolint: dupl
 		Pagination:        pageRes,
 	}, nil
 }
+
+// GetCount implements types.QueryServer.
+func (q Querier) GetCount(stdCtx context.Context, _ *types.QueryGetCount) (*types.QueryGetCountResponse, error) {
+
+	ctx := sdk.UnwrapSDKContext(stdCtx)
+
+	c := q.Keeper.GetCount(ctx)
+
+	return &types.QueryGetCountResponse{
+		Count: c.Count,
+	}, nil
+}

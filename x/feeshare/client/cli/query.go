@@ -29,6 +29,7 @@ func GetQueryCmd() *cobra.Command {
 		GetCmdQueryParams(),
 		GetCmdQueryDeployerFeeShares(),
 		GetCmdQueryWithdrawerFeeShares(),
+		GetCount(),
 	)
 
 	return feesQueryCmd
@@ -220,6 +221,37 @@ func GetCmdQueryWithdrawerFeeShares() *cobra.Command {
 			return clientCtx.PrintProto(res)
 		},
 	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+// Command to get count
+func GetCount() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "count",
+		Short:   "Show count",
+		Long:    "Show count",
+		Aliases: []string{},
+		Args:    cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.GetCount(cmd.Context(), &types.QueryGetCount{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+
+		},
+	}
+
 	flags.AddQueryFlagsToCmd(cmd)
 	return cmd
 }

@@ -217,7 +217,6 @@ func orderBeginBlockers() []string {
 		buildertypes.ModuleName,
 		// additional modules
 		// TODO: We may want to run cwmodules higher in the list
-		cwmodulestypes.ModuleName,
 		ibctransfertypes.ModuleName,
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
